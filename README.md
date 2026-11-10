@@ -1,3 +1,10 @@
+---open pasted 2026-11-11 at 2.04.54 ... file 
+- click raw view
+- go to download
+- open the folder
+- copy the URL
+- past in the browser to preview the tutor.AI 
+
 # Tutor.AI — Make it click
 
 A study companion that turns a question or study material into a plain-language explanation, an everyday analogy, ordered steps, and a short quiz.
