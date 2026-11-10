@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0910">
+  <meta name="description" content="Turn confusing material into clear explanations, useful examples, and quick knowledge checks.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <title>Tutor.AI — Make it click</title>
+  <link rel="stylesheet" href="tutor.css">
+  <script src="tutor-config.js"></script>
+  <script src="tutor.js" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="brand" aria-label="Tutor.AI">
+      <span class="brand-mark" aria-hidden="true">✦</span>
+      <span>Tutor.AI</span>
+    </div>
+    <div id="account-bar" class="account-bar" hidden>
+      <span id="account-name" class="account-name"></span>
+      <button id="logout-button" class="button button-subtle" type="button">Sign out</button>
+    </div>
+  </header>
+
+  <main id="auth-shell" class="page-shell auth-shell">
+    <section class="intro" aria-labelledby="auth-title">
+      <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Your personal study sidekick</p>
+      <h1 id="auth-title">Welcome <span>back.</span></h1>
+      <p class="intro-copy">Sign in to pick up where you left off, or create an account to keep your study history.</p>
+    </section>
+    <section class="auth-card card" aria-label="Tutor.AI account">
+      <div class="auth-tabs" role="tablist" aria-label="Account options">
+        <button id="login-tab" class="auth-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="auth-form">Sign in</button>
+        <button id="signup-tab" class="auth-tab" type="button" role="tab" aria-selected="false" aria-controls="auth-form" tabindex="-1">Create account</button>
+      </div>
+      <form id="auth-form">
+        <label class="field-label" for="username">Username</label>
+        <input id="username" class="text-field" name="username" type="text" minlength="3" maxlength="24" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+        <label class="field-label password-label" for="password">Password</label>
+        <input id="password" class="text-field" name="password" type="password" minlength="10" maxlength="128" autocomplete="current-password" required>
+        <p id="auth-help" class="auth-help">Use your Tutor.AI username and password.</p>
+        <p id="auth-status" class="auth-status" role="status" aria-live="polite"></p>
+        <button id="auth-submit" class="button button-primary auth-submit" type="submit">Sign in</button>
+      </form>
+    </section>
+    <p class="auth-privacy">Your account and study history are stored securely by the Tutor.AI service.</p>
+  </main>
+
+  <main id="app-shell" class="page-shell" hidden>
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Your personal study sidekick</p>
+      <h1 id="page-title">Make it <span>click.</span></h1>
+      <p class="intro-copy">Ask about a tricky idea, or add a page from your notes. Get a clear explanation, a real-world analogy, a step-by-step breakdown, and a quick quiz.</p>
+    </section>
+
+    <section class="history-section" aria-label="Conversation history">
+      <div class="history-heading">
+        <div>
+          <h2>Study history</h2>
+          <p>Revisit your recent explanations.</p>
+        </div>
+        <button id="history-toggle" class="button button-subtle" type="button" aria-expanded="false" aria-controls="history-panel">View history</button>
+      </div>
+      <div id="history-panel" class="history-panel card" hidden>
+        <div class="history-panel-heading">
+          <span id="history-count" class="history-count">Recent conversations</span>
+          <button id="clear-history" class="button button-subtle button-danger" type="button" disabled>Clear history</button>
+        </div>
+        <p id="history-status" class="history-status" role="status" aria-live="polite"></p>
+        <ul id="history-list" class="history-list"></ul>
+      </div>
+    </section>
+
+    <section class="composer card" aria-label="Ask Tutor.AI">
+      <label class="field-label" for="topic">What are you working on?</label>
+      <textarea id="topic" maxlength="1000" rows="4" placeholder="Try “Why does dividing by a fraction make a number bigger?”" aria-describedby="input-help"></textarea>
+      <div class="composer-footer">
+        <div class="attachment-area">
+          <input id="file-input" class="visually-hidden" type="file" accept="image/png,image/jpeg,image/gif,image/webp,application/pdf,.txt,.docx">
+          <button id="attach-button" class="button button-subtle" type="button" aria-controls="file-input">
+            <span aria-hidden="true">＋</span> Add a file
+          </button>
+          <span id="file-label" class="file-label" aria-live="polite"></span>
+          <button id="remove-file" class="icon-button" type="button" aria-label="Remove attached file" hidden>×</button>
+        </div>
+        <span id="input-help" class="input-help">PNG, JPEG, GIF, WebP, PDF, DOCX or TXT · 4 MB max</span>
+        <button id="explain-button" class="button button-primary" type="button" disabled>
+          <span class="button-icon" aria-hidden="true">✦</span>
+          <span id="explain-label">Explain this</span>
+        </button>
+      </div>
+    </section>
+
+    <p id="status" class="status-message" role="status" aria-live="polite"></p>
+
+    <section id="results" class="results" aria-labelledby="results-title" hidden>
+      <div class="results-heading">
+        <div>
+          <p class="eyebrow">A little more clarity</p>
+          <h2 id="results-title">Here’s the idea.</h2>
+        </div>
+        <span id="session-count" class="session-count">01</span>
+      </div>
+
+      <div class="tab-list" role="tablist" aria-label="Explanation style">
+        <button class="tab is-active" id="tab-simple" type="button" role="tab" aria-selected="true" aria-controls="panel-simple" data-tab="simple">Plain English</button>
+        <button class="tab" id="tab-analogy" type="button" role="tab" aria-selected="false" aria-controls="panel-analogy" data-tab="analogy" tabindex="-1">The analogy</button>
+        <button class="tab" id="tab-steps" type="button" role="tab" aria-selected="false" aria-controls="panel-steps" data-tab="steps" tabindex="-1">Step by step</button>
+        <button class="tab" id="tab-quiz" type="button" role="tab" aria-selected="false" aria-controls="panel-quiz" data-tab="quiz" tabindex="-1">Quick quiz</button>
+      </div>
+
+      <article class="answer-card card" id="answer-card">
+        <section class="answer-panel" id="panel-simple" role="tabpanel" aria-labelledby="tab-simple" tabindex="0">
+          <p id="simple-answer"></p>
+        </section>
+        <section class="answer-panel" id="panel-analogy" role="tabpanel" aria-labelledby="tab-analogy" tabindex="0" hidden>
+          <p class="analogy-lead">Picture this.</p>
+          <p id="analogy-answer"></p>
+        </section>
+        <section class="answer-panel" id="panel-steps" role="tabpanel" aria-labelledby="tab-steps" tabindex="0" hidden>
+          <ol id="step-list" class="step-list"></ol>
+        </section>
+        <section class="answer-panel" id="panel-quiz" role="tabpanel" aria-labelledby="tab-quiz" tabindex="0" hidden>
+          <p id="quiz-question" class="quiz-question"></p>
+          <div id="quiz-options" class="quiz-options"></div>
+          <p id="quiz-feedback" class="quiz-feedback" aria-live="polite" hidden></p>
+        </section>
+      </article>
+
+      <div class="tools-row">
+        <button id="copy-button" class="button button-subtle" type="button">Copy notes</button>
+        <button id="print-button" class="button button-subtle" type="button">Print / Save PDF</button>
+        <button id="handwriting-button" class="button button-subtle" type="button" aria-expanded="false" aria-controls="handwriting-panel">Make a note card</button>
+      </div>
+      <p id="copy-status" class="copy-status" role="status" aria-live="polite"></p>
+
+      <section id="handwriting-panel" class="handwriting-panel card" hidden>
+        <div class="note-controls">
+          <label for="font-select">Note style</label>
+          <select id="font-select">
+            <option value="cursive">Cursive</option>
+            <option value="comic">Friendly</option>
+            <option value="serif">Classic</option>
+          </select>
+          <button id="generate-note" class="button button-primary" type="button">Create note card</button>
+          <a id="download-note" class="button button-subtle" download="tutor-study-notes.png" hidden>Download PNG</a>
+        </div>
+        <img id="note-preview" class="note-preview" alt="Generated study notes on a lined page" hidden>
+      </section>
+      <section id="print-notes" class="print-notes" aria-label="Study notes for printing"></section>
+    </section>
+    <footer class="page-footer">
+      <span>Made for curious minds.</span>
+      <span>History saves your question and answer. Uploaded files are not saved.</span>
+    </footer>
+  </main>
+</body>
+</html>

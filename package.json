@@ -1,0 +1,16 @@
+{
+  "name": "tutor-ai",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.4.1",
+    "dotenv": "^16.6.1"
+  }
+}

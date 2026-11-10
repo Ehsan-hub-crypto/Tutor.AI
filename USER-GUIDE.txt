@@ -1,0 +1,179 @@
+TUTOR.AI - BEGINNER'S USER GUIDE
+================================
+
+This guide explains how to run Tutor.AI on your own computer and what is
+needed to put it online for other people.
+
+IMPORTANT: GitHub stores the project files, but it does not run this app.
+Tutor.AI needs its Node.js backend for sign-in, Gemini answers, and saved
+conversation history. Do not open index.html by double-clicking it.
+
+
+PART 1 - WHAT YOU NEED
+----------------------
+
+1. A computer with an internet connection.
+2. Node.js version 20 or newer. Download the LTS version from:
+   https://nodejs.org/
+   Installing Node.js also installs npm.
+3. A Gemini API key from Google AI Studio:
+   https://aistudio.google.com/app/apikey
+
+Keep your API key private. Never put it in a message, a screenshot, a public
+GitHub file, or the website's browser code. If a key has been shared publicly,
+revoke it and create a new one.
+
+
+PART 2 - GET THE PROJECT FILES
+------------------------------
+
+If you downloaded this project from GitHub:
+
+1. Download the repository as a ZIP and extract it, or use GitHub Desktop to
+   clone the repository.
+2. Find the folder named "tutor-ai". This guide and the app files are inside it.
+
+If you already have this folder on your computer, use that folder.
+
+
+PART 3 - START TUTOR.AI ON YOUR COMPUTER
+-----------------------------------------
+
+The commands below assume the terminal is open in the "tutor-ai" folder.
+
+Windows:
+1. Open the tutor-ai folder in File Explorer.
+2. Click the address bar, type "powershell", and press Enter.
+3. In PowerShell, install the app packages:
+
+       npm install
+
+macOS:
+1. Open Terminal.
+2. Type "cd " (including the space), drag the tutor-ai folder into the
+   Terminal window, and press Enter.
+3. Install the app packages:
+
+       npm install
+
+Now create your private settings file:
+
+1. In the terminal, run:
+
+       copy .env.example .env
+
+   On macOS, use this command instead:
+
+       cp .env.example .env
+
+2. Open the new ".env" file in a plain text editor such as Notepad
+   (Windows) or TextEdit in plain-text mode (macOS).
+3. Find this line:
+
+       GEMINI_API_KEY=
+
+4. Paste your NEW Gemini API key immediately after the equals sign, with no
+   quotation marks. It should look like GEMINI_API_KEY= followed by your
+   private key. Do not share the completed line with anyone.
+5. Save the file. The ".env" file is private and should not be uploaded to
+   GitHub.
+
+Start the app from the same terminal window:
+
+       npm start
+
+Wait until the terminal says Tutor.AI is listening. Open this address in
+your browser:
+
+       http://localhost:3000
+
+Choose "Create account" to register, then sign in. Use the "Study history"
+section to reopen previous answers or clear your saved conversations.
+
+Keep the terminal window open while you use the app. Closing it stops the
+local server. To start the app another time, open a terminal in the tutor-ai
+folder and run "npm start" again.
+
+To stop the server, return to its terminal window and press Ctrl+C.
+
+
+PART 4 - KEEP YOUR FILES AND KEY SAFE
+-------------------------------------
+
+- Never upload ".env", the "data" folder, or "node_modules" to GitHub.
+- The project ignores these local-only files automatically. Keep its
+  ".gitignore" file.
+- The ".env.example" file is safe to upload. It contains no real key.
+- The local "data" folder contains accounts and saved conversations. Back it
+  up privately if you need to keep that data.
+- Uploaded attachments are not saved, but questions and generated answers
+  are saved in conversation history until cleared.
+- There is no password reset feature yet. Keep your account password safe.
+
+
+PART 5 - LET OTHER PEOPLE USE THE APP ONLINE
+--------------------------------------------
+
+Putting files in GitHub does not make the app run online. GitHub Pages cannot
+run the Node.js backend, keep the Gemini key secret, or provide persistent
+account/history storage.
+
+To publish a working online version, you need a web hosting provider that:
+
+- Runs Node.js applications.
+- Provides a persistent disk/volume for the SQLite database.
+- Supports private environment variables (secrets).
+- Provides HTTPS.
+
+General steps (the exact button names depend on the hosting provider):
+
+1. Create a Node.js web service connected to your GitHub repository.
+2. Set its project/root directory to "tutor-ai".
+3. Set the install command to "npm install".
+4. Set the start command to "npm start".
+5. In the hosting dashboard's secret/environment settings, add
+   GEMINI_API_KEY and set its value to your private Gemini API key.
+   Do not add the key to a source file or GitHub Pages.
+6. Attach persistent storage for the database. Set TUTOR_DATABASE_PATH to a
+   file on that storage, for example /var/data/tutor.sqlite. If the host does
+   not keep this file between deployments/restarts, accounts and history may
+   be lost.
+7. Deploy the service and open the HTTPS URL provided by the host.
+8. Test creating an account and asking a question.
+9. Share the hosted HTTPS URL with users. You may add it to the GitHub
+   repository's "About" website field.
+
+Hosting providers may charge for the service, storage, or AI usage. Check
+their prices and limits before publishing. Gemini's free quota is limited
+and may change; it is not unlimited. Set spending/quota limits where
+available. Anyone allowed to use a public app may consume the owner's AI
+quota.
+
+
+COMMON PROBLEMS
+---------------
+
+"Could not connect to Tutor.AI":
+- Do not open index.html directly.
+- For local use, make sure "npm start" is running in the tutor-ai folder.
+- Open http://localhost:3000 (or the port shown by the server).
+
+"Tutor.AI is not configured yet":
+- Check that ".env" is in the tutor-ai folder.
+- Check that the line starts with GEMINI_API_KEY= and contains your new key.
+- Restart the server after changing ".env".
+
+"Gemini rejected the API key" or an authentication error:
+- Confirm the key is active in Google AI Studio.
+- If the key was shared or exposed, revoke it and use a newly created key.
+- Make sure you configured GEMINI_API_KEY on the backend, not in the browser.
+
+"Too many requests" or a busy message:
+- Gemini has request and usage quotas. Wait, check your Google AI Studio
+  project limits, and try again later.
+
+"npm is not recognized" or "command not found":
+- Install Node.js LTS from https://nodejs.org/ and reopen the terminal.
+
+
+END OF GUIDE
